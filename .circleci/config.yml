@@ -1,8 +1,6 @@
 version: 2
 jobs:
   publish:
-    docker:
-      - image: laravelapp
     steps:
       - checkout
       - run:
