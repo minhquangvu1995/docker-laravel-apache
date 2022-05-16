@@ -11,6 +11,7 @@ jobs:
       - checkout
       - run: echo "Hi I'm on Runners!"
       - run: echo $CIRCLE_BRANCH
+      - run: composer install
       - restore_cache:
           keys:
           # "composer.json" can be used if "composer.json"
