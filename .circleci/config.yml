@@ -11,4 +11,4 @@ jobs:
       - checkout
       - run: echo "Hi I'm on Runners!"
       - run: echo $CIRCLE_BRANCH
-      - run: sudo composer self-update
+      - run: php artisan migrate
