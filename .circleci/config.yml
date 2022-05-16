@@ -8,20 +8,5 @@ jobs:
     machine: true
     resource_class: minhquangvu1995/testing-circleci-kubernates
     steps:
-      - checkout
       - run: echo "Hi I'm on Runners!"
       - run: echo $CIRCLE_BRANCH
-      - run: composer install
-      - restore_cache:
-          keys:
-          # "composer.json" can be used if "composer.json"
-          # is not committed to the repository.
-          - composer-v1-{{ checksum "composer.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - composer-v1-
-      - run: composer install -n --prefer-dist
-      - save_cache:
-          key: composer-v1-{{ checksum "composer.lock" }}
-          paths:
-            - vendor
-      - run: php artisan migrate
