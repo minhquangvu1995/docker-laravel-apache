@@ -9,4 +9,5 @@ jobs:
     resource_class: minhquangvu1995/testing-circleci-kubernates
     steps:
       - checkout
-      - run: echo "Hi I'm on Runners!123"
+      - run: echo "Hi I'm on Runners!"
+      - run: echo $CIRCLE_BRANCH
