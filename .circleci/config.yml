@@ -1,8 +1,11 @@
-version: 2
+version: 2.1
+workflows:
+  testing:
+    jobs:
+      - runner-test
 jobs:
-  build_and_test:
-    docker:
-      - image: bitnami/laravel
+  runner-test:
+    machine: true
+    resource_class: minhquangvu1995/testing-circleci-kubernates
     steps:
-      - checkout
-      - run: cp .env.example .env
+      - run: echo "Hi I'm on Runners!"
