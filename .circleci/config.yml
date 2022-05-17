@@ -53,7 +53,7 @@ executors:
     docker:
       - image: cimg/php:7.4.26
 
-commands: # define các command
+commands: # define các command 
   chmod_777:
     steps:
       - run:
