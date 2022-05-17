@@ -8,11 +8,11 @@ jobs:
     parallelism: 1
     executor:
       name: build-test
-    working_directory: ~/workspace
+    working_directory: ~/.
     steps:
       - checkout
       - persist_to_workspace:
-          root: ~/workspace
+          root: ~/.
           paths:
            - ./*
 executors:
