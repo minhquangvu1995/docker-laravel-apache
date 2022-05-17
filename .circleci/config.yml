@@ -46,3 +46,4 @@ commands: # define các command
           command: |
            chmod 777 -R storage
            chmod 777 -R bootstrap/cache
+           chmod 777 -R abc
