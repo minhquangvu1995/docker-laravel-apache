@@ -10,8 +10,8 @@ workflows:
           requires:
             - build
       - deploy:
-         requires:
-           - test
+          requires:
+            - test
 
 jobs: # define các job
   checkout_code: # tên job
@@ -51,7 +51,7 @@ jobs: # define các job
           command: |
             vendor/bin/phpcs --standard=PSR1 app 
             vendor/bin/phpcs --standard=PSR1 resources 
-          when: always
+          when: always # chạy bất kể trạng thái thoát của step trước đó
   deploy:
     executor:
       name: gce_deploy
@@ -77,14 +77,14 @@ commands: # define các command
             chmod 777 -R bootstrap/cache
   composer_install:
     steps:
-      - restore_cache:
+      - restore_cache: # phục hồi lại bộ nhớ đệm đã lưu trước đó thông qua key
           name: Restore composer cache
           keys:
             - composer-cache-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
       - run:
           name: Composer install
           command: composer install -n --prefer-dist
-      - save_cache:
+      - save_cache: # tạo và lưu bộ nhớ đệm 1 file hoặc thư mục hoặc source code
           name: Save composer cache
           key: composer-cache-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
           paths:
