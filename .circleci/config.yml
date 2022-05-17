@@ -44,8 +44,10 @@ jobs: # define các job
           at: .
       - run:
           name: phpcs
+          # kiểm tra code chuẩn theo PSR1
           command: |
-            vendor/bin/phpcs --standard=PSR1 -e app
+            vendor/bin/phpcs --standard=PSR1 app 
+            vendor/bin/phpcs --standard=PSR1 resources 
           when: always
 
 executors:
