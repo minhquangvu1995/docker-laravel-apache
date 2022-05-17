@@ -8,7 +8,7 @@ jobs:
     parallelism: 1
     executor:
       name: build-test
-    working_directory: ~/laravel
+    working_directory: ~/public
     steps:
       - checkout
       - persist_to_workspace:
