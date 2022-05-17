@@ -6,12 +6,15 @@ workflows:
       - build:
          requires:
            - checkout_code # để job build có thể truy xuất tới file job checkout_code
+      - test:
+         requires:
+           - build
 
 jobs: # define các job
   checkout_code: # tên job
     parallelism: 1 # chạy song song nhiều test job
     executor:
-      name: build-test
+      name: build_test
     steps:
       - checkout
       - persist_to_workspace:
@@ -20,7 +23,7 @@ jobs: # define các job
            - ./*
   build:
     executor:
-      name: build-test
+      name: build_test
     steps:
       - attach_workspace: # đính kèm các file trong job checkout_code
           at: .
@@ -33,9 +36,20 @@ jobs: # define các job
           root: .
           paths:
             - ./*
+  test:
+    executor:
+      name: build_test
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: phpcs
+          command: |
+            vendor/bin/phpcs --standard=PSR1 -e app
+          when: always
 
 executors:
- build-test:
+  build_test:
     docker:
       - image: cimg/php:7.4.26
 
