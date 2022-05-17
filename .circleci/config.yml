@@ -1,10 +1,10 @@
 version: 2.1
 workflows:
-  testing:
+  ten-workflow:
     jobs:
-      - runner-test
+      - ten-job-la-day
 jobs:
-  runner-test:
+  ten-job-la-day:
     docker: # run the steps with Docker
       - image: cimg/php:7.4.26-apache
     steps:
