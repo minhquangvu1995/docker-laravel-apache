@@ -57,14 +57,7 @@ jobs: # define các job
     steps:
       - attach_workspace:
           at: .
-      - gettext_install
-      - setup_remote_docker
-      - authorize_gcp
-      - build_docker_image
-      - push_image_to_gcr
-      - select_gke_cluster
-      - deploy_kubernetes
-
+          
 executors: # define các môi trường để job chạy
   build_test:
     docker:
