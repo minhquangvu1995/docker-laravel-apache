@@ -3,6 +3,7 @@ workflows:
   ten-workflow:
     jobs:
       - ten-job-la-day
+      - job-thu-hai
 jobs:
   ten-job-la-day:
     docker: # run the steps with Docker
@@ -12,3 +13,8 @@ jobs:
       - run: cp .env.example .env
       - run: echo "Hi I'm on Runners!"
       - run: echo $CIRCLE_BRANCH
+  job-thu-hai:
+    docker: # run the steps with Docker
+      - image: cimg/php:7.4.26-apache
+    steps:
+      - run: echo "This is job second"
