@@ -15,14 +15,15 @@ workflows:
 
 jobs: # define các job
   checkout_code: # tên job
-    parallelism: 1 # chạy song song nhiều test job
+    working_directory: ~/project # define thư mục để chạy các step
+    parallelism: 2 # chạy song song nhiều step trong job
     executor:
       name: build_test
     steps:
       - checkout
-      - persist_to_workspace:
-          root: .
-          paths:
+      - persist_to_workspace: # để duy trì 1 file tạm thời để sử dụng cho job kế tiếp trong workflow
+          root: . # path đến file tạm thời
+          paths: # chọn các file tạm thời
             - ./*
   build:
     executor:
@@ -35,7 +36,7 @@ jobs: # define các job
           command: cp .env.example .env
       - chmod_777
       - composer_install
-      - persist_to_workspace:
+      - persist_to_workspace: 
           root: .
           paths:
             - ./*
@@ -57,7 +58,7 @@ jobs: # define các job
     steps:
       - attach_workspace:
           at: .
-          
+
 executors: # define các môi trường để job chạy
   build_test:
     docker:
