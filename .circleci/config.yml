@@ -1,6 +1,6 @@
 version: 2.1
 workflows:
-  ten-workflow:
+  my-workflows:
     jobs:
       - checkout_code
 jobs:
@@ -8,7 +8,7 @@ jobs:
     parallelism: 1
     executor:
       name: build-test
-    working_directory: ~/pubhghgfhfglic #chỉ tới thư mục project
+    working_directory: ~/. #chỉ tới thư mục nơi các steps chạy
     steps:
       - checkout
       - persist_to_workspace:
