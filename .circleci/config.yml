@@ -2,24 +2,9 @@ version: 2.1
 workflows:
   ten-workflow:
     jobs:
-      - checkout-code
-      - ten-job-la-day
-      - job-thu-hai
+      - checkout_code
 jobs:
-  ten-job-la-day:
-    docker: # run the steps with Docker
-      - image: cimg/php:7.4.26
-    steps:
-      - checkout
-      - run: cp .env.example .env
-      - run: echo "Hi I'm on Runners!"
-      - run: echo $CIRCLE_BRANCH
-  job-thu-hai:
-    docker: # run the steps with Docker
-      - image: cimg/php:7.4.26
-    steps:
-      - run: echo "This is job second"
-  checkout-code:
+  checkout_code:
     parallelism: 1
     executor:
       name: build-test
@@ -30,21 +15,7 @@ jobs:
           root: ~/workspace
           paths:
            - ./*
-build:
-  executor:
-    name: build-test
-  steps:
-    - attach_workspace:
-        at: ~/workspace
-    - run:
-        name: Configure PHP env
-        command: cp .env.example .env
-    - persist_to_workspace:
-        root: ~/workspace
-        paths:
-          - ./*
 executors:
  build-test:
    docker:
      - image: cimg/php:7.4.26
-   working_directory: ~/workspace
