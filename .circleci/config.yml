@@ -1,14 +1,15 @@
 version: 2.1
 workflows:
-  my-workflows:
+  my-workflows: # tên workflow
     jobs:
       - checkout_code
       - build:
          requires:
            - checkout_code # để job build có thể truy xuất tới file job checkout_code
+
 jobs: # define các job
   checkout_code: # tên job
-    parallelism: 1 # chạy sóng song nhiều test job
+    parallelism: 1 # chạy song song nhiều test job
     executor:
       name: build-test
     steps:
@@ -26,6 +27,7 @@ jobs: # define các job
       - run:
           name: Configure PHP env
           command: cp .env.example .env
+      - chmod_777
       - persist_to_workspace:
           root: .
           paths:
@@ -35,3 +37,12 @@ executors:
  build-test:
     docker:
       - image: cimg/php:7.4.26
+
+commands: # define các command
+  chmod_777:
+    steps:
+      - run:
+          name: chmod 777 (directory permission adjustment)
+          command: |
+           chmod 777 -R storage
+           chmod 777 -R bootstrap/cache
