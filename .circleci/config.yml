@@ -1,13 +1,83 @@
 version: 2.1
 workflows:
-  testing:
+  my-workflows: # tên workflow
     jobs:
-      - runner-test
-jobs:
-  runner-test:
-    resource_class: minhquangvu1995/testing-circleci-kubernates
-    docker: # run the steps with Docker
-      - image: cimg/php:7.4.26-apache
+      - checkout_code
+      - build:
+          requires:
+            - checkout_code # để job build có thể truy xuất tới file job checkout_code
+      - test:
+          requires:
+            - build
+
+jobs: # define các job
+  checkout_code: # tên job
+    parallelism: 1 # chạy song song nhiều test job
+    executor:
+      name: build_test
     steps:
-      - run: echo "Hi I'm on Runners!"
-      - run: echo $CIRCLE_BRANCH
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+  build:
+    executor:
+      name: build_test
+    steps:
+      - attach_workspace: # đính kèm các file trong job checkout_code
+          at: .
+      - run:
+          name: Configure PHP env
+          command: cp .env.example .env
+      - chmod_777
+      - composer_install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./*
+  test:
+    executor:
+      name: build_test
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: phpcs
+          command: |
+            vendor/bin/phpcs --standard=PSR1 -e app
+          when: always
+
+executors:
+  build_test:
+    docker:
+      - image: cimg/php:7.4.26
+
+commands: # define các command
+  chmod_777:
+    steps:
+      - run:
+          name: chmod 777 (directory permission adjustment)
+          command: | # cách để chạy multi command trong 1 step
+            chmod 777 -R storage
+            chmod 777 -R bootstrap/cache
+  composer_install:
+    steps:
+      - restore_cache:
+          name: Restore composer cache
+          keys:
+            - composer-cache-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+      - run:
+          name: Composer install
+          command: composer install -n --prefer-dist
+      - save_cache:
+          name: Save composer cache
+          key: composer-cache-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+          paths:
+            - ./vendor
+      - run:
+          name: Clear laravel config
+          command: php artisan config:clear
+      - run:
+          name: Generate key
+          command: php artisan key:generate
