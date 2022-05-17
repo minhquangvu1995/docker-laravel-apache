@@ -28,6 +28,7 @@ jobs: # define các job
           name: Configure PHP env
           command: cp .env.example .env
       - chmod_777
+      - composer_install
       - persist_to_workspace:
           root: .
           paths:
@@ -43,7 +44,26 @@ commands: # define các command
     steps:
       - run:
           name: chmod 777 (directory permission adjustment)
-          command: |
+          command: | # cách để chạy multi command trong 1 step
            chmod 777 -R storage
            chmod 777 -R bootstrap/cache
-           chmod 777 -R abc
+  composer_install:
+   steps:
+     - restore_cache:
+         name: restore composer cache
+         keys:
+           - composer-cache-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+     - run:
+         name: composer install
+         command: composer install -n --prefer-dist
+     - save_cache:
+         name: save composer cache
+         key: composer-cache-v1-{{ .Branch }}-{{ checksum "composer.lock" }}
+         paths:
+           - ./vendor
+     - run:
+         name: clear laravel config
+         command: php artisan config:clear
+     - run:
+         name: Generate key
+         command: php artisan key:generate
