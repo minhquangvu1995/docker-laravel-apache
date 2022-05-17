@@ -43,12 +43,10 @@ jobs: # define các job
       - attach_workspace:
           at: .
       - run:
-          name: phpcs
-          # kiểm tra code chuẩn theo PSR1
+          name: phpcs # kiểm tra code chuẩn theo PSR1
           command: |
             vendor/bin/phpcs --standard=PSR1 app 
             vendor/bin/phpcs --standard=PSR1 resources 
-          when: always
 
 executors:
   build_test:
