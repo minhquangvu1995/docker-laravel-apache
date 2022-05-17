@@ -9,6 +9,7 @@ jobs:
     docker: # run the steps with Docker
       - image: cimg/php:7.4.26-apache
     steps:
+      - checkout
+      - run: cp .env.example .env
       - run: echo "Hi I'm on Runners!"
       - run: echo $CIRCLE_BRANCH
-      - run: sudo php artisan config:clear
