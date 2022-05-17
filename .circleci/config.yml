@@ -9,6 +9,9 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+         requires:
+           - test
 
 jobs: # define các job
   checkout_code: # tên job
@@ -47,11 +50,28 @@ jobs: # define các job
           command: |
             vendor/bin/phpcs --standard=PSR1 app 
             vendor/bin/phpcs --standard=PSR1 resources 
+          when: always
+  deploy:
+    executor:
+      name: gce_deploy
+    steps:
+      - attach_workspace:
+          at: .
+      - gettext_install
+      - setup_remote_docker
+      - authorize_gcp
+      - build_docker_image
+      - push_image_to_gcr
+      - select_gke_cluster
+      - deploy_kubernetes
 
-executors:
+executors: # define các môi trường để job chạy
   build_test:
     docker:
       - image: cimg/php:7.4.26
+  gce_deploy:
+    docker:
+      - image: google/cloud-sdk
 
 commands: # define các command
   chmod_777:
