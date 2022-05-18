@@ -59,6 +59,7 @@ jobs: # define các job
       - attach_workspace:
           at: .
       - authorize_gcp
+      - select_gke_cluster
 
 executors: # define các môi trường để job chạy
   build_test:
