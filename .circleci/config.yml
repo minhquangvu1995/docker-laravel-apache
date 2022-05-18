@@ -97,7 +97,7 @@ commands: # define các command
       - run:
           name: Generate key
           command: php artisan key:generate
-  authorize_gcp: 
+  authorize_gcp:  
     steps:
       - run:
           name: Google Authentication
