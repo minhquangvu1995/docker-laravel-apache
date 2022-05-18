@@ -58,6 +58,9 @@ jobs: # define các job
     steps:
       - attach_workspace:
           at: .
+      - authorize_gcp
+      - select_gke_cluster
+      - deploy_kubernetes
 
 executors: # define các môi trường để job chạy
   build_test:
@@ -95,3 +98,32 @@ commands: # define các command
       - run:
           name: Generate key
           command: php artisan key:generate
+  authorize_gcp:  
+    steps:
+      - run:
+          name: Google Authentication
+          command: |
+            echo $JSON_KEY_FILE > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
+  select_gke_cluster:
+   steps:
+     - run:
+         name: Select GKE Cluster
+         command: |
+            gcloud config set core/project kubernate-circle-ci
+            gcloud config set container/cluster k8s-demo
+            gcloud container clusters get-credentials k8s-demo --zone asia-east2-a --project kubernate-circle-ci
+  deploy_kubernetes:
+   steps:
+     - run:
+         name: Deploy to Kubernetes
+         command: |
+            envsubst < yaml_files/deployment.yaml > ./deployment.yaml
+            envsubst < yaml_files/pdb-laravel-circleci.yaml > ./svc.yaml
+            envsubst < yaml_files/svc-laravel-circleci.yaml > ./pdb.yaml
+            kubectl apply -f ./deployment.yaml
+            kubectl apply -f ./svc.yaml
+            kubectl apply -f ./pdb.yaml
+            kubectl rollout status deployment laravel-circleci
+      
