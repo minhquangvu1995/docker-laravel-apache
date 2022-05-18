@@ -58,6 +58,7 @@ jobs: # define các job
     steps:
       - attach_workspace:
           at: .
+      - gettext_install
       - authorize_gcp
       - select_gke_cluster
       - deploy_kubernetes
@@ -98,6 +99,11 @@ commands: # define các command
       - run:
           name: Generate key
           command: php artisan key:generate
+  gettext_install:
+    steps:
+      - run:
+          name: gettext install
+          command: apt-get install -qq -y gettext
   authorize_gcp:  
     steps:
       - run:
