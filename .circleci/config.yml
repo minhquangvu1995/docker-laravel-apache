@@ -104,3 +104,11 @@ commands: # define các command
             echo $JSON_KEY_FILE > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
+  select_gke_cluster:
+   steps:
+     - run:
+         name: Select GKE Cluster
+         command: |
+           gcloud config set core/project kubernate-circle-ci
+           gcloud config set container/cluster k8s-demo
+           gcloud container clusters get-credentials k8s-demo --zone asia-east2-a --project kubernate-circle-ci
