@@ -58,6 +58,7 @@ jobs: # define các job
     steps:
       - attach_workspace:
           at: .
+      - authorize_gcp
 
 executors: # define các môi trường để job chạy
   build_test:
@@ -95,3 +96,11 @@ commands: # define các command
       - run:
           name: Generate key
           command: php artisan key:generate
+  authorize_gcp:
+    steps:
+      - run:
+          name: Google Authentication
+          command: |
+            echo $JSON_KEY_FILE > ${HOME}/gcloud-service-key.json
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
