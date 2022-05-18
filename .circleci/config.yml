@@ -99,7 +99,7 @@ commands: # define các command
       - run:
           name: Generate key
           command: php artisan key:generate
-  gettext_install:
+  gettext_install: # install để chạy command envsubst
     steps:
       - run:
           name: gettext install
@@ -126,10 +126,6 @@ commands: # define các command
          name: Deploy to Kubernetes
          command: |
             envsubst < yaml_files/deployment.yaml > ./deployment.yaml
-            envsubst < yaml_files/pdb-laravel-circleci.yaml > ./svc.yaml
-            envsubst < yaml_files/svc-laravel-circleci.yaml > ./pdb.yaml
             kubectl apply -f ./deployment.yaml
-            kubectl apply -f ./svc.yaml
-            kubectl apply -f ./pdb.yaml
             kubectl rollout status deployment kubernate-circle-ci
       
