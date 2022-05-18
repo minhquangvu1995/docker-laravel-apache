@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-circleci
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      name: laravel-circleci
+  template:
+    metadata:
+      labels:
+        name: laravel-circleci
+    spec:
+      containers:
+        - name: laravel-circleci-container
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              memory: 512Mi
+          image: asia.gcr.io/laravel-circleci/laravel-circleci:${CIRCLE_SHA1}-${CIRCLE_BUILD_NUM}
+          imagePullPolicy: Always
+          command: ["apache2-foreground"]
+          ports:
+            - containerPort: 80
