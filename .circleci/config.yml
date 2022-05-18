@@ -125,5 +125,5 @@ commands: # define các command
             kubectl apply -f ./deployment.yaml
             kubectl apply -f ./svc.yaml
             kubectl apply -f ./pdb.yaml
-            kubectl rollout status deployment laravel-circleci
+            kubectl rollout status deployment kubernate-circle-ci
       
