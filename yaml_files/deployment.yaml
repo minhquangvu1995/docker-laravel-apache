@@ -28,12 +28,12 @@ spec:
     spec:
       containers:
         - name: laravel-circleci-container
-          resources:
-            requests:
-              cpu: 200m
-              memory: 512Mi
-            limits:
-              memory: 512Mi
+#          resources:
+#            requests:
+#              cpu: 200m
+#              memory: 512Mi
+#            limits:
+#              memory: 512Mi
           image: asia-east1-docker.pkg.dev/kubernate-circle-ci/laravel-repository:${CIRCLE_SHA1}-${CIRCLE_BUILD_NUM}
           imagePullPolicy: Always
           command: ["apache2-foreground"]
