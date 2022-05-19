@@ -28,12 +28,12 @@ spec:
     spec:
       containers:
         - name: kubernate-circle-ci
-#          resources:
-#            requests:
-#              cpu: 200m
-#              memory: 512Mi
-#            limits:
-#              memory: 512Mi
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              memory: 512Mi
           image: gcr.io/kubernate-circle-ci/busybox:latest
           imagePullPolicy: Always
 #          command: ["apache2-foreground"]
