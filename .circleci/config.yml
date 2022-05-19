@@ -14,7 +14,7 @@ workflows:
             - test
 
 jobs: # define các job
-  checkout_code: # tên job
+  checkout_code: # tên job 
     working_directory: ~/project # define thư mục để chạy các step
     parallelism: 2 # chạy song song nhiều step trong job
     executor:
