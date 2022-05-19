@@ -114,17 +114,17 @@ commands: # define các command
             gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
   select_gke_cluster:
    steps:
-     - run:
-         name: Select GKE Cluster
-         command: |
+      - run:
+          name: Select GKE Cluster
+          command: |
             gcloud config set core/project kubernate-circle-ci
             gcloud config set container/cluster k8s-demo
             gcloud container clusters get-credentials k8s-demo --zone asia-east2-a --project kubernate-circle-ci
   deploy_kubernetes:
    steps:
-     - run:
-         name: Deploy to Kubernetes
-         command: |
+      - run:
+          name: Deploy to Kubernetes
+          command: |
             envsubst < yaml_files/deployment.yaml > ./deployment.yaml
             kubectl apply -f ./deployment.yaml
             kubectl rollout status deployment kubernate-circle-ci
