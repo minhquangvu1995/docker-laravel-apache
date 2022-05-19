@@ -34,7 +34,7 @@ spec:
 #              memory: 512Mi
 #            limits:
 #              memory: 512Mi
-          image: asia-east1-docker.pkg.dev/kubernate-circle-ci/laravel-repository:${CIRCLE_SHA1}-${CIRCLE_BUILD_NUM}
+          image: gcr.io/kubernate-circle-ci/busybox:${CIRCLE_SHA1}-${CIRCLE_BUILD_NUM}
           imagePullPolicy: Always
           command: ["apache2-foreground"]
           ports:
