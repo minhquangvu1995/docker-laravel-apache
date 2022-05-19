@@ -1,22 +1,28 @@
+# Đóng gói ứng dụng = container, nhóm lại bằng Pod, dùng ReplicaSet để chạy Pod, dùng Service để mở kết nối Pod ra bên ngoài
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laravel-circleci
+  name: kubernate-circle-ci # tên của deployment để tương tác với deployment
 spec:
-  replicas: 1
+  replicas: 1 # số lượng replica Pods, mặc định là 1
   strategy:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
     type: RollingUpdate
-  revisionHistoryLimit: 5
+# Recreate - xóa toàn bộ version cũ, rồi deploy 1 version mới lên ứng dụng
+#          - sẽ mất 1 khoảng thời gian downtime với client vì xóa toàn bộ version cũ và deploy version mới cho ứng dụng
+# RollingUpdate - chạy song song 2 version mới và cũ, deploy version mới lên từng ứng dụng và xóa version cũ
+#               - giảm thời gian downtime với client
+#               - version mới và cũ chạy chung 1 lúc gây khó khăn viết script test quá trình deploy
+  revisionHistoryLimit: 1 # số lượng revision history của ReplicaSet muốn lưu
   selector:
     matchLabels:
-      name: laravel-circleci
+      name: kubernate-circle-ci
   template:
     metadata:
       labels:
-        name: laravel-circleci
+        name: kubernate-circle-ci
     spec:
       containers:
         - name: laravel-circleci-container
