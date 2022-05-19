@@ -19,7 +19,7 @@ jobs: # define các job
     parallelism: 2 # chạy song song nhiều step trong job
     executor:
       name: build_test
-    steps:
+    steps: 
       - checkout
       - persist_to_workspace: # để duy trì 1 file tạm thời để sử dụng cho job kế tiếp trong workflow
           root: . # path đến file tạm thời
