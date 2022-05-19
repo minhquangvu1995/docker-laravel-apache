@@ -6,7 +6,7 @@ kind: Deployment
 metadata:
   name: kubernate-circle-ci # tên của deployment để tương tác với deployment
 spec:
-  replicas: 1 # số lượng replica Pods, mặc định là 1
+  replicas: 5 # số lượng replica Pods, mặc định là 1
   strategy:
     rollingUpdate:
       maxSurge: 1 # set số lượng Pod tối đa có thể tạo vượt số lượng Pod mong muốn

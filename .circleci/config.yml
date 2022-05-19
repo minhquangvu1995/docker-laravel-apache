@@ -36,7 +36,7 @@ jobs: # define các job
           command: cp .env.example .env
       - chmod_777
       - composer_install
-      - persist_to_workspace: 
+      - persist_to_workspace:
           root: .
           paths:
             - ./*
@@ -49,8 +49,8 @@ jobs: # define các job
       - run:
           name: phpcs # kiểm tra code chuẩn theo PSR1
           command: |
-            vendor/bin/phpcs --standard=PSR1 app 
-            vendor/bin/phpcs --standard=PSR1 resources 
+            vendor/bin/phpcs --standard=PSR1 app
+            vendor/bin/phpcs --standard=PSR1 resources
           when: always # chạy bất kể trạng thái thoát của step trước đó
   deploy:
     executor:
@@ -104,7 +104,7 @@ commands: # define các command
       - run:
           name: gettext install
           command: apt-get install -qq -y gettext
-  authorize_gcp:  
+  authorize_gcp:
     steps:
       - run:
           name: Google Authentication
@@ -127,5 +127,4 @@ commands: # define các command
          command: |
             envsubst < yaml_files/deployment.yaml > ./deployment.yaml
             kubectl apply -f ./deployment.yaml
-# kubectl rollout status deployment kubernate-circle-ci
-      
+            kubectl rollout status deployment kubernate-circle-ci
