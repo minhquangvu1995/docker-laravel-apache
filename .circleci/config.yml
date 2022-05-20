@@ -59,7 +59,8 @@ jobs: # define các job
       - attach_workspace:
           at: .
       - gettext_install
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.6
       - authorize_gcp
       - build_docker_image
       - select_gke_cluster
