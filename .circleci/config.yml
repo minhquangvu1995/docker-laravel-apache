@@ -124,7 +124,7 @@ commands: # define các command
             --file=dockerfile/Dockerfile \
             --build-arg ENVIRONMENT=staging \
             --build-arg APPNAME=laravelapp \
-            -t laravelapp .
+            -t laravelapp
   select_gke_cluster:
    steps:
       - run:
