@@ -59,6 +59,8 @@ jobs: # define các job
       - attach_workspace:
           at: .
       - gettext_install
+      - setup_remote_docker:
+          version: 20.10.6
       - authorize_gcp
       - build_docker_image
       - select_gke_cluster
@@ -118,11 +120,12 @@ commands: # define các command
      - run:
          name: Docker build image
          command: |
+            echo ${CIRCLE_PROJECT_REPONAME}
             docker build \
-            --file=dockerfile/Dockerfile \
-            --build-arg ENVIRONMENT=staging \
-            --build-arg APPNAME=${CIRCLE_PROJECT_REPONAME} \
-            -t ${CIRCLE_PROJECT_REPONAME} .
+              --file=dockerfile/Dockerfile \
+              --build-arg ENVIRONMENT=staging \
+              --build-arg APPNAME=${CIRCLE_PROJECT_REPONAME} \
+              -t ${CIRCLE_PROJECT_REPONAME} .
   select_gke_cluster:
    steps:
       - run:
