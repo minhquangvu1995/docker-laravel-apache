@@ -60,6 +60,7 @@ jobs: # define các job
           at: .
       - gettext_install
       - authorize_gcp
+      - build_docker_image
       - select_gke_cluster
       - deploy_kubernetes
 
@@ -112,6 +113,16 @@ commands: # define các command
             echo $JSON_KEY_FILE > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
+  build_docker_image:
+   steps:
+     - run:
+         name: Docker build image
+         command: |
+            docker build \
+            --file=dockerfile/Dockerfile \
+            --build-arg ENVIRONMENT=staging \
+            --build-arg APPNAME=${CIRCLE_PROJECT_REPONAME} \
+            -t ${CIRCLE_PROJECT_REPONAME} .
   select_gke_cluster:
    steps:
       - run:
@@ -126,5 +137,6 @@ commands: # define các command
           name: Deploy to Kubernetes
           command: |
             envsubst < yaml_files/deployment.yaml > ./deployment.yaml
+            envsubst < yaml_files/pdb-laravel-circleci.yaml > ./svc.yaml
             kubectl apply -f ./deployment.yaml
             kubectl rollout status deployment kubernate-circle-ci
