@@ -1,6 +1,7 @@
 # Deployment là 1 phương pháp của kubernate giúp cập nhật version mới của ứng dụng dễ dàng
 # thông qua 2 kiểu strategy để deploy là Recreate và RollingUpdate,
 # các version có history có thể rollback hoặc rollout giữa các version mà ko cần chạy lại CI/CD
+# Luồng: Deployment tạo và quản lý ReplicaSet -> ReplicaSet tạo và quản lý Pod -> Pod run container.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
