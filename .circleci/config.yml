@@ -115,7 +115,7 @@ commands: # define các command
           command: |
             echo $JSON_KEY_FILE > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
+            gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
   build_docker_image:
    steps:
       - run:
