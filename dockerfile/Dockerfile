@@ -18,7 +18,7 @@ RUN set -x \
 RUN set -x \
     && a2enmod rewrite headers\
     && a2enconf security \
-    && a2ensite 000-default ${APPNAME} healthcheck
+    && a2ensite 000-default ${APPNAME}
 
 COPY . /app/${APPNAME}
 
