@@ -59,6 +59,7 @@ jobs: # define các job
       - attach_workspace:
           at: .
       - gettext_install
+      - setup_remote_docker
       - authorize_gcp
       - build_docker_image
       - select_gke_cluster
