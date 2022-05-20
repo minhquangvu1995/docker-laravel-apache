@@ -5,7 +5,7 @@ metadata:
   labels:
     name: svc-kubernate-circle-ci
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 80
       nodePort: 30502
