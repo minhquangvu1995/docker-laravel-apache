@@ -63,6 +63,7 @@ jobs: # define các job
           version: 20.10.6
       - authorize_gcp
       - build_docker_image
+      - push_image_to_gcr
       - select_gke_cluster
       - deploy_kubernetes
 
