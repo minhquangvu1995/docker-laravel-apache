@@ -119,6 +119,7 @@ commands: # define các command
      - run:
          name: Docker build image
          command: |
+            echo ${CIRCLE_PROJECT_REPONAME}
             docker build \
             --file=dockerfile/Dockerfile \
             --build-arg ENVIRONMENT=staging \
