@@ -1,9 +1,9 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: pdb-laravel-circleci
+  name: pdb-kubernate-circle-ci
 spec:
   maxUnavailable: 1
   selector:
     matchLabels:
-      name: laravel-circleci
+      name: kubernate-circle-ci
