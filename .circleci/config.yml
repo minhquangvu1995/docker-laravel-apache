@@ -128,4 +128,5 @@ commands: # define các command
             envsubst < yaml_files/deployment.yaml > ./deployment.yaml
             kubectl apply -f ./deployment.yaml
             kubectl get deployments
+            kubectl get rs
             kubectl rollout status deployment kubernate-circle-ci
