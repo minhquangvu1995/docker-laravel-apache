@@ -10,7 +10,6 @@ spec:
 # ClusterIP - chỉ có thể truy cập dịch vụ này trong Cluster thông qua 1 IP nội bộ (Cluster IP)
 # NodePort - có thể truy cập thông qua 1 IP nội bộ trong Cluster (giống như ClusterIP),
 #          - hoặc có thể truy cập từ IP bên ngoài đã được định nghĩa (Node IP)
-#          - Expose Service ra bên ngoài Client
 #          - Kubernates phân bố port theo 1 khoảng nhất định từ 30000-32767
 # LoadBalancer - như 1 dạng public IP (LoadBalancer IP), tất cả đều có thể truy cập
 # https://stackoverflow.com/questions/41509439/whats-the-difference-between-clusterip-nodeport-and-loadbalancer-service-types
