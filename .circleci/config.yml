@@ -63,7 +63,7 @@ jobs: # define các job
           version: 20.10.6 # fix lỗi CircleCi mặc định lấy Docker version 17.09.0-ce
       - authorize_gcp
       - build_docker_image
-#      - push_image_to_gcr
+      - push_image_to_gcr
       - select_gke_cluster
       - deploy_kubernetes
 
@@ -152,8 +152,6 @@ commands: # define các command
             envsubst < yaml_files/deployment.yaml > ./deployment.yaml
             envsubst < yaml_files/pdb-laravel-circleci.yaml > ./svc.yaml
             envsubst < yaml_files/svc-laravel-circleci.yaml > ./pdb.yaml
-            kubectl apply -f ./deployment.yaml
-            kubectl apply -f ./svc.yaml
-            kubectl apply -f ./pdb.yaml
+            kubectl apply -f ./deployment.yaml -f ./svc.yaml -f ./pdb.yaml
             kubectl rollout status deployment kubernate-circle-ci
 # envsubst tìm những biến dạng $VARIABLE or ${VARIABLE} để thay thế giá trị của biến đó được gán ở phía trước
