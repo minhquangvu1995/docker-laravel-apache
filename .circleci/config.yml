@@ -103,12 +103,15 @@ commands: # define các command
       - run:
           name: Generate key
           command: php artisan key:generate
-  gettext_install: # install để chạy command envsubst
+  gettext_install: 
+    # install để chạy command envsubst
+    # envsubst tìm những biến dạng $VARIABLE or ${VARIABLE} để thay thế giá trị của biến đó được gán ở phía trước
     steps:
       - run:
           name: gettext install
           command: apt-get install -qq -y gettext
   authorize_gcp:
+    # cấp quyền truy cập Google Cloud
     steps:
       - run:
           name: Google Authentication
@@ -117,7 +120,8 @@ commands: # define các command
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
   build_docker_image:
-   steps:
+    # build image thông qua Dockerfile
+    steps:
       - run:
           name: Docker build image
           command: |
@@ -128,7 +132,8 @@ commands: # define các command
               --build-arg APPNAME=${CIRCLE_PROJECT_REPONAME} \
               -t ${CIRCLE_PROJECT_REPONAME} .
   push_image_to_gcr:
-   steps:
+    # push image lên vùng chứa GCR (Google Container Registry)
+    steps:
       - run:
           name: Docker push image to GCR
           command: |
@@ -137,15 +142,18 @@ commands: # define các command
             docker tag ${CIRCLE_PROJECT_REPONAME} gcr.io/kubernate-circle-ci/busybox:latest
             docker push gcr.io/kubernate-circle-ci/busybox:latest
   select_gke_cluster:
-   steps:
+    # Cluster là cụm các node (các máy ảo)
+    # các Node để thực hiện các tác vụ được giao
+    steps:
       - run:
           name: Select GKE Cluster
           command: |
-            gcloud config set core/project kubernate-circle-ci
+            gcloud config set core/project kubernate-circle-ci 
             gcloud config set container/cluster k8s-demo
             gcloud container clusters get-credentials k8s-demo --zone asia-east2-a --project kubernate-circle-ci
+          # mô tả: - chỉ định project, chỉ định cluster để sử dụng
   deploy_kubernetes:
-   steps:
+    steps:
       - run:
           name: Deploy to Kubernetes
           command: |
@@ -154,4 +162,3 @@ commands: # define các command
             envsubst < yaml_files/svc-laravel-circleci.yaml > ./pdb.yaml
             kubectl apply -f ./deployment.yaml -f ./svc.yaml -f ./pdb.yaml
             kubectl rollout status deployment kubernate-circle-ci
-# envsubst tìm những biến dạng $VARIABLE or ${VARIABLE} để thay thế giá trị của biến đó được gán ở phía trước
