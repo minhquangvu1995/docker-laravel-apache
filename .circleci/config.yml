@@ -14,13 +14,13 @@ workflows:
             - test
 
 jobs: # define các job
-  checkout_code: # tên job 
+  checkout_code: # tên job
     working_directory: ~/project # define thư mục để chạy các step
     parallelism: 2 # chạy song song nhiều step trong job
-    executor:
+    executor: # yêu cầu môi trường cần thiết để chạy job
       name: build_test
-    steps: 
-      - checkout 
+    steps:
+      - checkout # step quan trọng, để cập nhật code mới nhất cho "working_directory"
       - persist_to_workspace: # để duy trì 1 file tạm thời để sử dụng cho job kế tiếp trong workflow
           root: . # path đến file tạm thời
           paths: # chọn các file tạm thời
@@ -59,11 +59,11 @@ jobs: # define các job
       - attach_workspace:
           at: .
       - gettext_install
-      - setup_remote_docker:
-          version: 20.10.6
+      - setup_remote_docker: # command của CircleCi để remote docker
+          version: 20.10.6 # fix lỗi CircleCi mặc định lấy Docker version 17.09.0-ce
       - authorize_gcp
       - build_docker_image
-      - push_image_to_gcr
+#      - push_image_to_gcr
       - select_gke_cluster
       - deploy_kubernetes
 
@@ -156,3 +156,4 @@ commands: # define các command
             kubectl apply -f ./svc.yaml
             kubectl apply -f ./pdb.yaml
             kubectl rollout status deployment kubernate-circle-ci
+# envsubst tìm những biến dạng $VARIABLE or ${VARIABLE} để thay thế giá trị của biến đó được gán ở phía trước
