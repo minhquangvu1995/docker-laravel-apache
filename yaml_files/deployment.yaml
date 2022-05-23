@@ -35,9 +35,10 @@ spec:
 #              memory: 512Mi
 #            limits:
 #              memory: 512Mi
-          image: gcr.io/kubernate-circle-ci/busybox:latest
-          imagePullPolicy: Always
-          command: ["apache2-foreground"]
+          image: gcr.io/kubernate-circle-ci/busybox:${CIRCLE_SHA1}-${CIRCLE_BUILD_NUM}
+          # không nên để :latest vì khó theo dõi version image và rollback đúng version
+          imagePullPolicy: Always # nếu đã tồn tại cache image, sẽ sử dụng cache còn ko sẽ pull và sử dụng
+          command: ["apache2-foreground"] # this command: apache2 -D FOREGROUND => giữ cho server apache chạy liên tục
           ###
           ports:
             - containerPort: 80

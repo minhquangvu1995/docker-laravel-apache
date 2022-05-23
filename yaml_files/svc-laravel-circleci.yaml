@@ -1,13 +1,17 @@
 apiVersion: v1
 kind: Service
+# service để chạy ứng dụng
 metadata:
   name: svc-kubernate-circle-ci
   labels:
     name: svc-kubernate-circle-ci
 spec:
   type: LoadBalancer
+# LoadBalancer -
+# NodePort - kubernates phân bố port theo 1 khoảng nhất định (default: 30000-32767)
+# https://stackoverflow.com/questions/41509439/whats-the-difference-between-clusterip-nodeport-and-loadbalancer-service-types
   ports:
     - port: 80
-      nodePort: 30502
+      #nodePort: 30502
   selector:
     name: kubernate-circle-ci

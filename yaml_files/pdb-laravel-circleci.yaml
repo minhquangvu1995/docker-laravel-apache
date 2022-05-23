@@ -1,5 +1,7 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
+# duy trì sự sẵn có workload ngay cả khi có điều gì đó thay đổi, cho phép cluster duy trì high availability
+# trong những lần gián đoạn bất ngờ hoặc trong quá trình triển khai
 metadata:
   name: pdb-kubernate-circle-ci
 spec:
