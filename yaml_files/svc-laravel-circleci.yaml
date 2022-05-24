@@ -6,7 +6,7 @@ metadata:
   labels:
     name: svc-kubernate-circle-ci
 spec:
-  type: LoadBalancer
+  type: NodePort
 # ClusterIP - chỉ có thể truy cập dịch vụ này trong Cluster thông qua 1 IP nội bộ (Cluster IP)
 # NodePort - có thể truy cập thông qua 1 IP nội bộ trong Cluster (giống như ClusterIP),
 #          - hoặc có thể truy cập từ IP bên ngoài đã được định nghĩa (Node IP)
@@ -16,5 +16,7 @@ spec:
   ports:
     - port: 80
       #nodePort: 30502
+      targetPort: 80
+      nodePort: 30007
   selector:
     name: kubernate-circle-ci
