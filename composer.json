@@ -11,9 +11,11 @@
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.4",
         "laravel/framework": "^6.20.26",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "minhvq/custom-string": "dev-master"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "facade/ignition": "^1.16.15",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.0",
@@ -33,7 +35,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "MinhVuQuang\\CustomString\\": "vendor/minhvq/custom-string/src/"
         },
         "classmap": [
             "database/seeds",

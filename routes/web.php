@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {
+    echo MinhVuQuang\CustomString\Facades\CustomString::generate(Illuminate\Support\Str::random(40));
     return view('welcome');
 });
