@@ -15,3 +15,5 @@ Route::get('/', function () {
     echo MinhVuQuang\CustomString\Facades\CustomString::generate(Illuminate\Support\Str::random(40));
     return view('welcome');
 });
+
+Route::get('/test', [App\Http\Controllers\Controller::class, 'index']);
